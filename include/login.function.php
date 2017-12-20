@@ -3,6 +3,43 @@
 require_once 'token.class.php';
 // require_once 'info.function.php';
 
+    function check_login($user_name,$user_passwd)
+    {
+        global $db;
+        $re =$db->has("user", [
+                "user_name" => $user_name,
+            ]
+            );
+        if(!$re)
+        {
+            $return['status'] = 2;
+        }
+        else
+        {
+            $re = $db->get("user",[
+                "id",
+                "user_name",
+            ],[
+                "user_name" => $user_name,
+                "user_passwd" => $user_passwd,
+            ]
+            );
+            if($re)
+            {
+                $token = Token::addToken($re['id']);
+                $return['status'] = 1;
+                $return['id'] = $re['id'];
+                $return['user_name'] = $re['user_name'];
+                $return['token'] = $token;
+            }
+            else
+            {
+                $return['status'] = 0;
+            }
+        }
+        return $return;
+
+    }
 function signup($user_name,$user_passwd)
 {
     global $db;
