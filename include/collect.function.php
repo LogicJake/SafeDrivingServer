@@ -1,5 +1,5 @@
 <?php
-function check_login($name,$user_id,$data)
+function collect($name,$user_id,$data)
 {
     global $db;
     if ($name == 'GYROSCOPE') {
