@@ -10,9 +10,9 @@ require_once './include/result.class.php';
 //require_once './include/token.class.php';
 
 // white list
-$actionList = ['collect','postSignup','postLogin'];          //所有action列表
+$actionList = ['postCollect','postSignup','postLogin'];          //所有action列表
 
-$noTokenList = ['collect','postSignup','postLogin'];         //不需要token的action
+$noTokenList = ['postCollect','postSignup','postLogin'];         //不需要token的action
 
 if (!isset($_GET['_action'])) {
     Result::error('missing _action');
