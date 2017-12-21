@@ -8,7 +8,7 @@ function collect($name,$user_id,$data)
             "data" => $data,
         ]
         );
-        if ($rea->rowCount()>0) {
+        if ($re->rowCount()>0) {
             $return['status']=1;
             return $return;
         }
@@ -20,7 +20,7 @@ function collect($name,$user_id,$data)
             "data" => $data,
         ]
         );
-        if ($rea->rowCount()>0) {
+        if ($re->rowCount()>0) {
             $return['status']=1;
             return $return;
         }
