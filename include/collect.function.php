@@ -2,6 +2,7 @@
 function collect($name,$user_id,$data)
 {
     global $db;
+    echo $data;
     if ($name == 'GYROSCOPE') {
         $re = $db->insert("gyroscope", [
             "user_id" => $user_id,
