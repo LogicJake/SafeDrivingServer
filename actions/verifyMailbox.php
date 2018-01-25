@@ -53,9 +53,14 @@ function verifyCode(){
 		 	'expire[>]' => time()		//没有过期 
 		 ]
 		]);
-	if($res)
+	if($res){
+		$res = $db->delete("verify",[
+			'userid' => $uid,
+			'verifyCode' => $code
+		   ]);
 		Result::success('success');
-	else
+	}
+		else
 		Result::error('fail');
 }
 /*

@@ -7,6 +7,7 @@ session_start();
 require_once './include/Medoo.php';
 require_once './include/config.php';
 require_once './include/result.class.php';
+require_once './include/token.class.php';
 //require_once './include/token.class.php';
 
 // white list
