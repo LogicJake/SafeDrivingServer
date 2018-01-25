@@ -10,7 +10,7 @@ require_once './include/result.class.php';
 //require_once './include/token.class.php';
 
 // white list
-$actionList = ['postCollect','postSignup','postLogin','getForgetpasswd'];          //所有action列表
+$actionList = ['postCollect','postSignup','postLogin','getForgetpasswd','verifyMailbox'];          //所有action列表
 
 $noTokenList = ['postCollect','postSignup','postLogin','getForgetpasswd'];         //不需要token的action
 
