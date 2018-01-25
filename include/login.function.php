@@ -19,6 +19,7 @@ function check_login($user_name,$user_passwd)
             $re = $db->get("user",[
                 "id",
                 "user_name",
+                "email",
             ],[
                 "user_name" => $user_name,
                 "user_passwd" => $user_passwd,
@@ -26,6 +27,10 @@ function check_login($user_name,$user_passwd)
             );
             if($re)
             {
+                if(strlen($re['email']) == 0)
+                    $return['email'] = 0;
+                else
+                    $return['email'] = 1;
                 $token = Token::addToken($re['id']);
                 $return['status'] = 1;
                 $return['id'] = $re['id'];
