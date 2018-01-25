@@ -3,8 +3,8 @@
 require_once 'token.class.php';
 // require_once 'info.function.php';
 
-    function check_login($user_name,$user_passwd)
-    {
+function check_login($user_name,$user_passwd)
+{
         global $db;
         $re =$db->has("user", [
                 "user_name" => $user_name,
@@ -39,7 +39,9 @@ require_once 'token.class.php';
         }
         return $return;
 
-    }
+}
+
+
 function signup($user_name,$user_passwd)
 {
     global $db;
@@ -67,12 +69,14 @@ function signup($user_name,$user_passwd)
     }
     return $return;
 }
+
 function get_user_id($user_name)
 {
     global $db;
     $user = $db->get("user",['id'],['user_name'=>$user_name]);
     return $user?$user['id']:"0";
 }
+
 function logout($user_id)
 {
     global $db;
