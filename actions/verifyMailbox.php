@@ -30,12 +30,13 @@ function SendCode(){
 	$re =$db->insert("verify", [
             "userid" => $uid,
             'verifyCode' => $code,
-            'add_time' => time(),
+			'add_time' => time(),
+			'email' => $mail,
             'expire' => time() + $expireTime
         	]
         );
 
-	$res = sendMail($mail,'邮箱验证',"您的此次验证码为：{$code},如果不是本人操作请忽略。",true);
+	$res = sendMail($mail,'邮箱验证',"您的此次验证码为：{$code}，如果不是本人操作请忽略。",true);
 	if ($res == 1)
 		Result::success('send success');
 	else
@@ -54,10 +55,20 @@ function verifyCode(){
 		 ]
 		]);
 	if($res){
-		$res = $db->delete("verify",[
+		$res = $db->get("verify",[
+			'email'
+			],[
+				'userid' => $uid,
+				'verifyCode' => $code	
+			]);
+		$db->delete("verify",[
 			'userid' => $uid,
-			'verifyCode' => $code
-		   ]);
+			]);
+		$db->update("user",[
+			'email' => $res['email']
+		],[
+			'id' => $uid,
+		]);
 		Result::success('success');
 	}
 		else
