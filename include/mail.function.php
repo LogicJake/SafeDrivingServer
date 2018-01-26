@@ -17,7 +17,7 @@ function sendMail($to,$title,$content,$single){
         $mail->Port = 465;                                    // TCP port to connect to
         $mail->CharSet = 'UTF-8';
         //Recipients
-        $mail->setFrom($username, '作业提交平台');
+        $mail->setFrom($username, '安全驾驶app');
         if ($single) {                  //单个收件人
             $mail->addAddress($to);     // Add a recipient
         }
