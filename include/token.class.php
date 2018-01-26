@@ -47,7 +47,10 @@ class Token {
         global $db;
         $tokenSalt = '安全驾驶';
         $tokenName = md5($tokenSalt . time() . $uid . $tokenSalt);
-        $db->insert('token',[
+        $db->delete('token',[               //删除之前token
+            'userid' => $uid
+        ]);
+        $db->insert('token',[               //插入最新token
             'userid' => $uid,
             'tokenName' => $tokenName,
             'expire' => time() + $expireTime
