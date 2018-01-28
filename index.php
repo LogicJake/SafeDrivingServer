@@ -8,7 +8,8 @@ require_once './include/Medoo.php';
 require_once './include/config.php';
 require_once './include/result.class.php';
 require_once './include/token.class.php';
-//require_once './include/token.class.php';
+
+$upload_avator = '/www/driving-file/avator';
 
 // white list
 $actionList = ['postCollect','postSignup','postLogin','getForgetpasswd','verifyMailbox','postPic'];          //所有action列表
