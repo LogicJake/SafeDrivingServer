@@ -12,7 +12,7 @@ require_once './include/token.class.php';
 $upload_avator = '/www/driving-file/avator';
 
 // white list
-$actionList = ['postCollect','postSignup','postLogin','getForgetpasswd','verifyMailbox','postPic'];          //所有action列表
+$actionList = ['postCollect','postSignup','postLogin','getForgetpasswd','verifyMailbox','postAvator'];          //所有action列表
 
 $noTokenList = ['postCollect','postSignup','postLogin','getForgetpasswd'];         //不需要token的action
 
