@@ -2,7 +2,7 @@
     echo `whoami`;
     //文件存储路径
     $file_path = $upload_avator;
-    //664权限为文件属主和属组用户可读和写，其他用户只读。
+    //774权限为文件属主和属组用户可读和写还有执行，其他用户只读。
     if(is_dir($file_path)!=TRUE){
         mkdir($file_path,0774,true);
     }
