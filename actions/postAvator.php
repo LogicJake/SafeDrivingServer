@@ -3,7 +3,7 @@
     $file_path = $upload_avator;
     //664权限为文件属主和属组用户可读和写，其他用户只读。
     if(is_dir($file_path)!=TRUE){
-        mkdir($file_path,0664);
+        mkdir($file_path,0664,true);
     }
     //定义允许上传的文件扩展名
     $ext_arr = array( "jpg", "jpeg", "png", "bmp");
@@ -33,8 +33,8 @@
             Result::success($result);
         }
         $avatorSalt = '一个调试的微笑';
-        $avatorName = md5($tokenSalt . time() . $GLOBALS['uid'] . $avatorSalt);
-        $new_avator_url = $avatorName . ".jpg";
+        $avatorName = md5(time() . $GLOBALS['uid'] . $avatorSalt);
+        $new_avator_url = $avatorName . ".".$file_ext;
         move_uploaded_file($_FILES["file"]["tmp_name"],"$file_path"."/" . $new_avator_url);
 
         $db->update('user',[
