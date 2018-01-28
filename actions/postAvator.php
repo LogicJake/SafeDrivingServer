@@ -11,7 +11,7 @@
     if (empty($_FILES) === false) {
         //判断检查
         if($_FILES["file"]["size"] > 1024*1024){
-            // $result['msg'] = '对不起，您上传的照片超过了2M。';
+            // $result['msg'] = '对不起，您上传的照片超过了1M。';
             $result['status'] = 1;
             Result::success($result);
         }
@@ -40,9 +40,6 @@
         ],[
             'id'   => $GLOBALS['uid']
         ]);
-
-        $result['avator_url'] = $new_avator_url;
-        $result['test_url'] = $file_path."/" . $new_avator_url;
         $result['status'] = 200;
         Result::success($result);
     } else {
