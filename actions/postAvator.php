@@ -4,7 +4,7 @@
     $file_path = $upload_avator;
     //664权限为文件属主和属组用户可读和写，其他用户只读。
     if(is_dir($file_path)!=TRUE){
-        mkdir($file_path,0664,true);
+        mkdir($file_path,0774,true);
     }
     //定义允许上传的文件扩展名
     $ext_arr = array( "jpg", "jpeg", "png", "bmp");
