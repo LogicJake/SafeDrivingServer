@@ -32,7 +32,7 @@
             $result['status'] = 3;
             Result::success($result);
         }
-        $new_avator_url = $GLOBALS['uid'] . ".".$file_ext;
+        $new_avator_url = $GLOBALS['uid'] . ".jpg";
         move_uploaded_file($_FILES["file"]["tmp_name"],"$file_path"."/" . $new_avator_url);
 
         $db->update('user',[
