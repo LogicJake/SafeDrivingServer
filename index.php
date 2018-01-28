@@ -9,7 +9,7 @@ require_once './include/config.php';
 require_once './include/result.class.php';
 require_once './include/token.class.php';
 
-$upload_avator = '/www/driving-file/avator';
+$upload_avator = 'var/www/html/driving-file/avator';
 
 // white list
 $actionList = ['postCollect','postSignup','postLogin','getForgetpasswd','verifyMailbox','postAvator'];          //所有action列表
