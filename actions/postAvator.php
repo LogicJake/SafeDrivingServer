@@ -1,4 +1,5 @@
 <?php
+    echo `whoami`;
     //文件存储路径
     $file_path = $upload_avator;
     //664权限为文件属主和属组用户可读和写，其他用户只读。
