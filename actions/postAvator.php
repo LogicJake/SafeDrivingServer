@@ -32,9 +32,7 @@
             $result['status'] = 3;
             Result::success($result);
         }
-        $avatorSalt = '一个调试的微笑';
-        $avatorName = md5(time() . $GLOBALS['uid'] . $avatorSalt);
-        $new_avator_url = $avatorName . ".".$file_ext;
+        $new_avator_url = $GLOBALS['uid'] . ".".$file_ext;
         move_uploaded_file($_FILES["file"]["tmp_name"],"$file_path"."/" . $new_avator_url);
 
         $db->update('user',[
