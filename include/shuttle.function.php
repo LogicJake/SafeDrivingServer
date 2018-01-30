@@ -22,7 +22,6 @@ function getInfo($destination,$date){
                 'start_date[<=]' => $date,
                 'end_date[>=]' => $date
             ]);
-        print_r($res);
     }
     else{           //一般情况，判断周中周末
         date_default_timezone_set("PRC");
@@ -36,7 +35,6 @@ function getInfo($destination,$date){
             ],[
                     'type' => 1,
             ]);
-            print_r($res);
         }
         else
         {       
@@ -48,7 +46,6 @@ function getInfo($destination,$date){
             ],[
                 'type' => 0,
             ]);
-        print_r($res);
         }
     }
     return $res;
