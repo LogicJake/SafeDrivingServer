@@ -72,11 +72,11 @@ function signup($user_name,$user_passwd)
     return $return;
 }
 
-function get_user_id($user_name)
+function get_email($user_name)
 {
     global $db;
-    $user = $db->get("user",['id'],['user_name'=>$user_name]);
-    return $user?$user['id']:"0";
+    $user = $db->get("user",['email'],['user_name'=>$user_name]);
+    return $user?$user['email']:"0";
 }
 
 function logout($user_id)

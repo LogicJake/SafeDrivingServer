@@ -5,8 +5,7 @@ if(isset($_GET['user_name']))
 {
     if($_GET['user_name'])
     {
-        $result['user_id'] = get_user_id($_GET['user_name']);
-        $result['token'] = Token::addToken($result['user_id']);
+        $result['email'] = get_email($_GET['user_name']);
     }
 }
 Result::success($result);
