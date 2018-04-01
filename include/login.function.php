@@ -104,9 +104,10 @@ function change_passwd($user_id,$new_passwd)
 {
      global $db;
      $update = $db->update("user", [
-            "id" => $user_id,
-            "user_passwd" => $new_passwd,
-        ]
-        );
+            "user_passwd" => $new_passwd
+     ],[
+        "id" => $user_id
+     ]
+    );
     return $update?true:false;
 }
