@@ -75,8 +75,15 @@ function signup($user_name,$user_passwd)
 function get_email($user_name)
 {
     global $db;
-    $user = $db->get("user",['email'],['user_name'=>$user_name]);
-    return $user?$user['email']:"0";
+    $user = $db->get("user",['id','email'],['user_name'=>$user_name]);
+    $res['status'] = $user?1:0;
+    if($res['status']==1){
+        $res['id'] = $user['id'];
+        $res['email'] = $user['email'];
+        if(strlen($res['email'])==0)
+            $res['status']=2;
+    }
+    return $res;
 }
 
 function logout($user_id)
