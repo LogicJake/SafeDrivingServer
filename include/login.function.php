@@ -99,3 +99,14 @@ function logout($user_id)
         return 0;
     }
 }
+
+function change_passwd($user_id,$new_passwd)
+{
+     global $db;
+     $update = $db->update("user", [
+            "id" => $user_id,
+            "user_passwd" => $new_passwd,
+        ]
+        );
+    return $update?true:false;
+}
