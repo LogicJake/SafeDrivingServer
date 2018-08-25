@@ -3,6 +3,7 @@ package com.scy.driving;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,6 +27,9 @@ public class MyExceptionHandler {
 			return result;
 		} else if (e instanceof TokenExpiredException) {
 			result.setHr(HResult.E_AUTH_EXPIRED);
+			return result;
+		} else if (e instanceof MissingServletRequestParameterException) {
+			result.setHr(HResult.E_INVALID_PARAMETERS);
 			return result;
 		} else {
 			return result;

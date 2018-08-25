@@ -2,6 +2,8 @@ package com.scy.driving;
 
 import java.util.Arrays;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -11,6 +13,8 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
+import com.scy.driving.util.exception.TokenErrorException;
 
 @SpringBootApplication
 @ImportResource("classpath*:config/spring/**.xml")
@@ -34,5 +38,14 @@ public class Application extends SpringBootServletInitializer {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return new CorsFilter(source);
+	}
+	
+	// 可以用该方法获得拦截器中设置的Attribute值
+	public static Long getUserId(HttpServletRequest request) throws TokenErrorException {
+		Object userId = request.getAttribute("userId");
+		if (userId != null) {
+			return (Long) userId;
+		}
+		throw new TokenErrorException();
 	}
 }
