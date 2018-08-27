@@ -8,5 +8,8 @@ import com.scy.driving.entity.User;
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 	User findByUserNameAndPassword(String userName, String password);
+	
 	User findByUserName(String userName);
+	
+	boolean existsByUserName(String userName);
 }

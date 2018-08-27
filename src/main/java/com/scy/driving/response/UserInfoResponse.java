@@ -2,13 +2,13 @@ package com.scy.driving.response;
 
 import com.scy.driving.entity.User;
 
-public class LoginResponse {
+public class UserInfoResponse {
 	private String token;
 	private String email;
 	private Long uid;
 	private String userName;
 	
-	public LoginResponse(User user) {
+	public UserInfoResponse(User user) {
 		this.email = user.getEmail();
 		this.uid = user.getUid();
 		this.userName = user.getUserName();

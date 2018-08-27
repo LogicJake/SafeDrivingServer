@@ -21,7 +21,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 	
 	private static List<Pattern> URL_REGEX_PATTERN_OPEN = new ArrayList<Pattern>();
 	// 正则匹配：不需要验证的url
-	private static String[] URL_WITHOUT_CLAIMS = { "\\/account\\/login" };
+	private static String[] URL_WITHOUT_CLAIMS = { "\\/account\\/login", "\\/account\\/signUp" };
 	static {
 		URL_REGEX_PATTERN_OPEN = new ArrayList<Pattern>();
 		for (String openUrl : URL_WITHOUT_CLAIMS) {
