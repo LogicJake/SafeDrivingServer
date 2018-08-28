@@ -20,7 +20,7 @@ public class AuthorizeService {
 	public static final long SIX_MONTH_MILLIS = 7 * 24 * 60 * 60 * 1000L;
 	
 	// 存放token的请求头名称
-	public static final String AUTHORIZATION_HEADER = "Authorization-DRIVING";
+	public static final String AUTHORIZATION_HEADER = "Authorization-Driving";
 	
 	private static final String ACCESS_TOKEN = "nuaa-driving";
 	
@@ -36,7 +36,7 @@ public class AuthorizeService {
 			Algorithm algorithm = Algorithm.HMAC256(ACCESS_TOKEN);
 			algorithm.verify(decodedJWT);
 			
-			Integer userId = Integer.valueOf(decodedJWT.getId());
+			Long userId = Long.valueOf(decodedJWT.getId());
 			request.setAttribute("userId", userId);
 			
 			// 检查token有没有过期

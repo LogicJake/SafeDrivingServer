@@ -2,6 +2,8 @@ package com.scy.driving.controller;
 
 import java.io.UnsupportedEncodingException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scy.driving.Application;
 import com.scy.driving.entity.User;
 import com.scy.driving.repository.UserRepository;
 import com.scy.driving.response.UserInfoResponse;
 import com.scy.driving.service.AuthorizeService;
 import com.scy.driving.util.Utility;
+import com.scy.driving.util.exception.TokenErrorException;
 import com.scy.driving.util.model.GenericJsonResult;
 import com.scy.driving.util.model.HResult;
 
@@ -74,6 +78,22 @@ public class AccountController {
 		String token = authorizeService.createToken(user.getUid());
 		signUpResponse.setToken(token);
 		result.setData(signUpResponse);
+		return result;
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
+	public GenericJsonResult<String> modifyPassword(HttpServletRequest httpRequest, @RequestParam(value = "password", required = true) String newPassword)
+			throws TokenErrorException {
+		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
+		Long uid = Application.getUserId(httpRequest);
+		User user = userRepository.findByUid(uid);
+		if (!Utility.isEmptyString(newPassword)) {
+			user.setPassword(newPassword);
+			userRepository.save(user);
+		} else {
+			result.setHr(HResult.E_INVALID_PARAMETERS);
+		}
 		return result;
 	}
 }
