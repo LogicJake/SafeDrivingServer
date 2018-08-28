@@ -81,6 +81,13 @@ public class AccountController {
 		return result;
 	}
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public GenericJsonResult<String> logout(HttpServletRequest httpRequest) throws TokenErrorException {
+		Long userId = Application.getUserId(httpRequest);
+		authorizeService.deleteToken(userId);
+		return new GenericJsonResult<>(HResult.S_OK);
+	}
+	
 	@Transactional
 	@RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
 	public GenericJsonResult<String> modifyPassword(HttpServletRequest httpRequest, @RequestParam(value = "password", required = true) String newPassword)

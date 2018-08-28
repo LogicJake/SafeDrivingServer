@@ -70,4 +70,9 @@ public class AuthorizeService {
 		tokenRepository.save(token);
 		return tokenStr;
 	}
+	
+	@Transactional
+	public void deleteToken(Long userId) {
+		tokenRepository.deleteById(userId);
+	}
 }
