@@ -4,15 +4,22 @@ import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.scy.driving.entity.Token;
+import com.scy.driving.repository.TokenRepository;
 
 @Service
 public class AuthorizeService {
+	@Autowired
+	private TokenRepository tokenRepository;
+	
 	public final static int SUCCESS = 0;
 	public final static int FAILURE = -1;
 	public final static int EXPIRED = -2;
@@ -39,13 +46,15 @@ public class AuthorizeService {
 			Long userId = Long.valueOf(decodedJWT.getId());
 			request.setAttribute("userId", userId);
 			
+			boolean isExist = tokenRepository.existsByUidAndToken(userId, token);
+			if (!isExist) {
+				return FAILURE;
+			}
+			
 			// 检查token有没有过期
 			if (System.currentTimeMillis() >= decodedJWT.getExpiresAt().getTime()) {
 				return EXPIRED;
 			}
-			
-			// 可以多加一步验证，将uid存储在数据库中，进行对比uid是否和token对应上，以防伪造token。
-			
 		} catch (Exception e) {
 			return FAILURE;
 		}
@@ -53,12 +62,12 @@ public class AuthorizeService {
 		return SUCCESS;
 	}
 	
+	@Transactional
 	public String createToken(Long userId) throws IllegalArgumentException, UnsupportedEncodingException {
 		Algorithm algorithm = Algorithm.HMAC256(ACCESS_TOKEN); // 加密算法
-		String token = JWT.create()
-				.withJWTId(String.valueOf(userId))
-				.withExpiresAt(new Date(System.currentTimeMillis() + SIX_MONTH_MILLIS))
-				.sign(algorithm);
-		return token;
+		String tokenStr = JWT.create().withJWTId(String.valueOf(userId)).withExpiresAt(new Date(System.currentTimeMillis() + SIX_MONTH_MILLIS)).sign(algorithm);
+		Token token = new Token(userId, tokenStr);
+		tokenRepository.save(token);
+		return tokenStr;
 	}
 }
