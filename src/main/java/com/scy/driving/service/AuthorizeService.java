@@ -19,7 +19,6 @@ import com.scy.driving.repository.TokenRepository;
 public class AuthorizeService {
 	@Autowired
 	private TokenRepository tokenRepository;
-	
 	public final static int SUCCESS = 0;
 	public final static int FAILURE = -1;
 	public final static int EXPIRED = -2;
