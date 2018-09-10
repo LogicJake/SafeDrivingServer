@@ -29,4 +29,4 @@ mvnw
 
 /.metadata
 /.setting
-src/main/resources/application.properties
+src/main/resources/*.properties

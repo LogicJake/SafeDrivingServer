@@ -11,15 +11,14 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.springframework.stereotype.Service;
+import org.junit.Test;
 
-@Service
-public class MailService {
+public class MailServiceTest {
 	public void sendMail(String toMail, String subject, String content) throws IOException, MessagingException {
 		// 创建Properties 类用于记录邮箱的一些属性
 		Properties props = new Properties();
 		
-		InputStream inputStream = MailService.class.getClassLoader().getResourceAsStream("email.properties");
+		InputStream inputStream = MailServiceTest.class.getClassLoader().getResourceAsStream("email.properties");
 		
 		props.load(inputStream); // 加载properties文件
 		inputStream.close();
@@ -51,4 +50,10 @@ public class MailService {
 		ts.sendMessage(message, message.getAllRecipients());
 		ts.close();
 	}
+	
+	@Test
+	public void test() throws IOException, MessagingException {
+		sendMail("835410808@qq.com", "12", "12");
+	}
+	
 }
