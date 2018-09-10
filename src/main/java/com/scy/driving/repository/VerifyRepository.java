@@ -7,5 +7,5 @@ import com.scy.driving.entity.Verify;
 
 @Repository
 public interface VerifyRepository extends CrudRepository<Verify, Long> {
-	
+	Verify findByUid(Long uid);
 }

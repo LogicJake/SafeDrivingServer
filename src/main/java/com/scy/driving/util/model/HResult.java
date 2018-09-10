@@ -116,7 +116,7 @@ public enum HResult {
 	E_TEAM_LIVE_NOT_EXISTS(0x81000017, "直播不存在!"),
 	E_TEAM_CODE_INVALID(0x81000018, "团队ID不正确!"),
 	E_TEAM_LIVE_BEGINTIME(0x81000019, "开始时间早于当前时间，请重新选择!"),
-	E_CHECKCODE_INVALID(0x81000020,"短信验证码失效,请重新获取"),
+	E_CHECKCODE_INVALID(0x81000020,"验证码失效,请重新获取"),
 	E_MULTIPLE_START_LIVE(0x81000021,"已有直播正在进行,请结束后再开启此直播!"),
 	E_TEAM_FEE_PACKAGE_LIMIT(0x81000022,"套餐超额!"),
 	E_TEAM_NO_AVAILABLE_CODE(0x81000023,"无可用团队编号,请联系管理员!"),

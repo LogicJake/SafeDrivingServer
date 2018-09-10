@@ -55,6 +55,31 @@ public class VerifyCodeController {
 		return result;
 	}
 	
+	@Transactional
+	@RequestMapping(value = "/verifyCode", method = RequestMethod.POST)
+	public GenericJsonResult<String> verifyCode(HttpServletRequest httpRequest, @RequestParam(value = "code", required = true) String code) throws TokenErrorException {
+		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
+		Long uid = Application.getUserId(httpRequest);
+		Verify verify = verifyRepository.findByUid(uid);
+		
+		// 验证码错误
+		if (!code.equals(verify.getVerifyCode())) {
+			result.setHr(HResult.E_CHECKCODE_VERIFIED_FAILED);
+			return result;
+		}
+		
+		// 过期失效
+		if (verify.getExpire() < System.currentTimeMillis()) {
+			result.setHr(HResult.E_CHECKCODE_INVALID);
+			verifyRepository.deleteById(uid);
+			return result;
+		}
+		
+		// 删除数据库中验证码
+		verifyRepository.deleteById(uid);
+		return result;
+	}
+	
 	private String createCode() {
 		String str = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		Random random = new Random();
