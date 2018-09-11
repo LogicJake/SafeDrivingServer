@@ -15,8 +15,8 @@ import com.scy.driving.util.model.HResult;
 import com.scy.driving.util.model.PartialArrayList;
 
 @RestController
-@RequestMapping(value = "bus")
-public class BusController {
+@RequestMapping(value = "ride")
+public class RideController {
 	@Autowired
 	private BusInfoRepository busInfoRepository;
 	
