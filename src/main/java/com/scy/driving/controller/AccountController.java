@@ -113,7 +113,7 @@ public class AccountController {
 	
 	@Transactional
 	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
-	public GenericJsonResult<String> uploadAvator(HttpServletRequest httpRequest, @RequestParam(value = "file") MultipartFile file) throws TokenErrorException {
+	public GenericJsonResult<String> uploadAvator(HttpServletRequest httpRequest, @RequestParam(value = "file", required = true) MultipartFile file) throws TokenErrorException {
 		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
 		
 		String uploadDir = env.getProperty("upload.avatar.location");
