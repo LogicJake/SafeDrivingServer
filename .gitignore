@@ -30,3 +30,4 @@ mvnw
 /.metadata
 /.setting
 src/main/resources/*.properties
+*.jpg

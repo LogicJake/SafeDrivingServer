@@ -14,7 +14,10 @@ public enum HResult {
 	E_NO_DATA(0x80002001, "无数据，请与管理员联系"), 
 	E_DUPLICATED_DATA(0x80002002, "重复数据，请稍后重试"),
 	E_NO_SCHOOL(0x80002003, "学校不存在"),
-	
+	E_AVATAR_BIG(0x80002004, "图片大小超过2M"),
+	E_AVATAR_SAVE(0x80002005, "头像保存失败"),
+	E_AVATAR_SUFFIX(0x80002006, "图片后缀不正确"),
+
 	// UFS ACTIVATE
 	E_ACTIVATECODE_INVALID(0x80000040, "无效的激活码"),
 	E_ACTIVATECODE_DISABLED(0x80000041, "激活码已被禁用"),

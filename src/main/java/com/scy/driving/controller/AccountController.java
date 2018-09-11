@@ -1,15 +1,19 @@
 package com.scy.driving.controller;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.scy.driving.Application;
 import com.scy.driving.entity.User;
@@ -28,6 +32,9 @@ public class AccountController {
 	private UserRepository userRepository;
 	@Autowired
 	private AuthorizeService authorizeService;
+	@Autowired
+	private Environment env;
+	private String[] avatarSuffix = { "jpg", "jpeg", "png" };
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public GenericJsonResult<UserInfoResponse> login(@RequestParam(value = "userName", required = true) String userName,
@@ -100,6 +107,53 @@ public class AccountController {
 			userRepository.save(user);
 		} else {
 			result.setHr(HResult.E_INVALID_PARAMETERS);
+		}
+		return result;
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/uploadAvatar", method = RequestMethod.POST)
+	public GenericJsonResult<String> uploadAvator(HttpServletRequest httpRequest, @RequestParam(value = "file") MultipartFile file) throws TokenErrorException {
+		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
+		
+		String uploadDir = env.getProperty("upload.avatar.location");
+		File dir = new File(uploadDir);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		if (!file.isEmpty()) {
+			String fileName = file.getOriginalFilename();
+			String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+			
+			// 检查后缀是否符合要求
+			boolean isValidSuffix = false;
+			for (int i = 0; i < avatarSuffix.length; i++) {
+				if (suffix.equalsIgnoreCase(avatarSuffix[i])) {
+					isValidSuffix = true;
+				}
+			}
+			if (!isValidSuffix) {
+				result.setHr(HResult.E_AVATAR_SUFFIX);
+				return result;
+			}
+			
+			String defineName = UUID.randomUUID() + "." + suffix;
+			File saveFile = new File(uploadDir + defineName);
+			System.out.println(defineName);
+			try {
+				file.transferTo(saveFile);
+			} catch (Exception e) {
+				result.setHr(HResult.E_AVATAR_SAVE);
+				return result;
+			}
+			
+			// 虚拟路径
+			String avatarUrl = "avatar/" + defineName;
+			Long uid = Application.getUserId(httpRequest);
+			User user = userRepository.findByUid(uid);
+			user.setAvatarUrl(avatarUrl);
+			userRepository.save(user);
+			result.setData(avatarUrl);
 		}
 		return result;
 	}

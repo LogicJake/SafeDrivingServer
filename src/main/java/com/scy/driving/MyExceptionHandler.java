@@ -7,6 +7,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.scy.driving.util.exception.TokenErrorException;
 import com.scy.driving.util.exception.TokenExpiredException;
@@ -31,7 +32,11 @@ public class MyExceptionHandler {
 		} else if (e instanceof MissingServletRequestParameterException) {
 			result.setHr(HResult.E_INVALID_PARAMETERS);
 			return result;
-		} else {
+		}else if (e instanceof MaxUploadSizeExceededException) {
+			result.setHr(HResult.E_AVATAR_BIG);
+			return result;
+		}
+		else {
 			return result;
 		}
 	}
