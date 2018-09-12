@@ -18,8 +18,6 @@ public class RideRecord {
 	private Long uid;
 	@Column(name = "region")
 	private String region;
-	@Column(name = "ride_id")
-	private String rideId;
 	@Column(name = "start_time")
 	private Long startTime;
 	@Column(name = "end_time")
@@ -47,14 +45,6 @@ public class RideRecord {
 	
 	public void setRegion(String region) {
 		this.region = region;
-	}
-	
-	public String getRideId() {
-		return rideId;
-	}
-	
-	public void setRideId(String rideId) {
-		this.rideId = rideId;
 	}
 	
 	public Long getStartTime() {

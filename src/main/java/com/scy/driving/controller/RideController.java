@@ -1,6 +1,5 @@
 package com.scy.driving.controller;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,6 @@ import com.scy.driving.entity.RideRecord;
 import com.scy.driving.repository.BusInfoRepository;
 import com.scy.driving.repository.CommentRepository;
 import com.scy.driving.repository.RideRecordRepository;
-import com.scy.driving.util.Utility;
 import com.scy.driving.util.exception.TokenErrorException;
 import com.scy.driving.util.model.GenericJsonResult;
 import com.scy.driving.util.model.HResult;
@@ -60,8 +58,8 @@ public class RideController {
 	
 	@Transactional
 	@RequestMapping(value = "/startRide", method = RequestMethod.GET)
-	public GenericJsonResult<String> startRide(HttpServletRequest httpRequest, @RequestParam(value = "region", required = true) String region) throws TokenErrorException {
-		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
+	public GenericJsonResult<Long> startRide(HttpServletRequest httpRequest, @RequestParam(value = "region", required = true) String region) throws TokenErrorException {
+		GenericJsonResult<Long> result = new GenericJsonResult<>(HResult.S_OK);
 		Long uid = Application.getUserId(httpRequest);
 		Long startTime = System.currentTimeMillis();
 		
@@ -70,23 +68,17 @@ public class RideController {
 		rideRecord.setUid(uid);
 		rideRecord.setStartTime(startTime);
 		
-		try {
-			String rideId = Utility.md5Crypt(Long.toString(uid) + region + Long.toString(startTime));
-			rideRecord.setRideId(rideId);
-			result.setData(rideId);
-			rideRecordRepository.save(rideRecord);
-		} catch (NoSuchAlgorithmException e) {
-			result.setHr(HResult.E_UNKNOWN);
-			result.setExtraData(e.getClass().getName());
-		}
+		RideRecord saveRideRecord = rideRecordRepository.save(rideRecord);
+		result.setData(saveRideRecord.getId());
+
 		return result;
 	}
 	
 	@Transactional
 	@RequestMapping(value = "/endRide", method = RequestMethod.GET)
-	public GenericJsonResult<String> endRide(HttpServletRequest httpRequest, @RequestParam(value = "rideId", required = true) String rideId) throws TokenErrorException {
+	public GenericJsonResult<String> endRide(HttpServletRequest httpRequest, @RequestParam(value = "rideId", required = true) Long rideId) throws TokenErrorException {
 		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
-		RideRecord rideRecord = rideRecordRepository.findByRideId(rideId);
+		RideRecord rideRecord = rideRecordRepository.findById(rideId).get();
 		Long uid = Application.getUserId(httpRequest);
 		
 		if (uid != rideRecord.getUid()) {
