@@ -7,7 +7,8 @@ public enum HResult {
 	E_NOT_FOUNT(404, ""),
 	
 	//ride
-	E_END_RIDE(0x87000002,"行程已结束"),
+	E_END_RIDE(0x90000001,"行程已结束"),
+	E_PARAMETER(0x90000002,"参数错误"),
 	
 	// common
 	E_UNKNOWN(0x80000000, "未知错误，请稍候重试"),
