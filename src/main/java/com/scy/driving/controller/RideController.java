@@ -18,6 +18,7 @@ import com.scy.driving.entity.RideRecord;
 import com.scy.driving.repository.BusInfoRepository;
 import com.scy.driving.repository.CommentRepository;
 import com.scy.driving.repository.RideRecordRepository;
+import com.scy.driving.util.Utility;
 import com.scy.driving.util.exception.TokenErrorException;
 import com.scy.driving.util.model.GenericJsonResult;
 import com.scy.driving.util.model.HResult;
@@ -57,7 +58,8 @@ public class RideController {
 	
 	@Transactional
 	@RequestMapping(value = "/startRide", method = RequestMethod.GET)
-	public GenericJsonResult<Long> startRide(HttpServletRequest httpRequest, @RequestParam(value = "region", required = true) String region) throws TokenErrorException {
+	public GenericJsonResult<Long> startRide(HttpServletRequest httpRequest, @RequestParam(value = "region", required = true) String region,
+			@RequestParam(value = "busTag", required = false) String busTag) throws TokenErrorException {
 		GenericJsonResult<Long> result = new GenericJsonResult<>(HResult.S_OK);
 		Long uid = Application.getUserId(httpRequest);
 		Long startTime = System.currentTimeMillis();
@@ -66,6 +68,10 @@ public class RideController {
 		rideRecord.setRegion(region);
 		rideRecord.setUid(uid);
 		rideRecord.setStartTime(startTime);
+		
+		if (!Utility.isEmptyString(busTag)) {
+			rideRecord.setBusTag(busTag);
+		}
 		
 		RideRecord saveRideRecord = rideRecordRepository.save(rideRecord);
 		result.setData(saveRideRecord.getId());
