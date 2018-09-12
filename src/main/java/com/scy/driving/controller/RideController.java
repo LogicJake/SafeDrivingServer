@@ -71,9 +71,9 @@ public class RideController {
 		rideRecord.setStartTime(startTime);
 		
 		try {
-			String flag = Utility.md5Crypt(Long.toString(uid) + region + Long.toString(startTime));
-			rideRecord.setFlag(flag);
-			result.setData(flag);
+			String rideId = Utility.md5Crypt(Long.toString(uid) + region + Long.toString(startTime));
+			rideRecord.setRideId(rideId);
+			result.setData(rideId);
 			rideRecordRepository.save(rideRecord);
 		} catch (NoSuchAlgorithmException e) {
 			result.setHr(HResult.E_UNKNOWN);
@@ -84,9 +84,9 @@ public class RideController {
 	
 	@Transactional
 	@RequestMapping(value = "/endRide", method = RequestMethod.GET)
-	public GenericJsonResult<String> endRide(HttpServletRequest httpRequest, @RequestParam(value = "flag", required = true) String flag) throws TokenErrorException {
+	public GenericJsonResult<String> endRide(HttpServletRequest httpRequest, @RequestParam(value = "rideId", required = true) String rideId) throws TokenErrorException {
 		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
-		RideRecord rideRecord = rideRecordRepository.findByFlag(flag);
+		RideRecord rideRecord = rideRecordRepository.findByRideId(rideId);
 		Long uid = Application.getUserId(httpRequest);
 		
 		if (uid != rideRecord.getUid()) {
@@ -94,7 +94,7 @@ public class RideController {
 			return result;
 		}
 		
-		//行程已结束
+		// 行程已结束
 		if (0 != rideRecord.getEndTime()) {
 			result.setHr(HResult.E_END_RIDE);
 			return result;
