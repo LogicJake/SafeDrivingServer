@@ -45,12 +45,11 @@ public class RideController {
 	}
 	
 	@RequestMapping(value = "/addComment", method = RequestMethod.POST)
-	public GenericJsonResult<String> addComment(HttpServletRequest httpRequest, @RequestParam(value = "rate", required = true) Float rate,
-			@RequestParam(value = "comment", required = true) String commentTxt, @RequestParam(value = "tag", required = true) String tag) throws TokenErrorException {
+	public GenericJsonResult<String> addComment(@RequestParam(value = "rate", required = true) Float rate, @RequestParam(value = "comment", required = true) String commentTxt,
+			@RequestParam(value = "rideId", required = true) Long rideId) {
 		GenericJsonResult<String> result = new GenericJsonResult<String>(HResult.S_OK);
 		
-		Long uid = Application.getUserId(httpRequest);
-		Comment comment = new Comment(uid, rate, commentTxt, tag);
+		Comment comment = new Comment(rideId, rate, commentTxt);
 		commentRepository.save(comment);
 		
 		return result;
@@ -70,7 +69,7 @@ public class RideController {
 		
 		RideRecord saveRideRecord = rideRecordRepository.save(rideRecord);
 		result.setData(saveRideRecord.getId());
-
+		
 		return result;
 	}
 	

@@ -14,21 +14,18 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	@Column(name = "uid")
-	private Long uid;
+	@Column(name = "ride_id")
+	private Long rideId;
 	@Column(name = "rate")
 	private Float rate;
 	@Column(name = "suggestion")
 	private String suggestion;
-	@Column(name = "tag")
-	private String tag;
 	
-	public Comment(Long uid, Float rate, String suggestion, String tag) {
+	public Comment(Long rideId, Float rate, String suggestion) {
 		super();
-		this.uid = uid;
+		this.rideId = rideId;
 		this.rate = rate;
 		this.suggestion = suggestion;
-		this.tag = tag;
 	}
 	
 	public Long getId() {
@@ -39,12 +36,12 @@ public class Comment {
 		this.id = id;
 	}
 	
-	public Long getUid() {
-		return uid;
+	public Long getRideId() {
+		return rideId;
 	}
 	
-	public void setUid(Long uid) {
-		this.uid = uid;
+	public void setRideId(Long rideId) {
+		this.rideId = rideId;
 	}
 	
 	public Float getRate() {
@@ -62,13 +59,4 @@ public class Comment {
 	public void setSuggestion(String suggestion) {
 		this.suggestion = suggestion;
 	}
-	
-	public String getTag() {
-		return tag;
-	}
-	
-	public void setTag(String tag) {
-		this.tag = tag;
-	}
-	
 }
