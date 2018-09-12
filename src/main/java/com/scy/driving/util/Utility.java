@@ -4,6 +4,8 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
 import java.util.regex.Matcher;
@@ -274,6 +276,25 @@ public class Utility {
 			}
 		}
 		return false;
+	}
+	
+	public static String md5Crypt(String str) throws NoSuchAlgorithmException {
+		if (str == null || str.length() == 0) {
+			throw new IllegalArgumentException("String to encript cannot be null or zero length");
+		}
+		StringBuffer hexString = new StringBuffer();
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(str.getBytes());
+		byte[] hash = md.digest();
+		for (int i = 0; i < hash.length; i++) {
+			if ((0xff & hash[i]) < 0x10) {
+				hexString.append("0" + Integer.toHexString((0xFF & hash[i])));
+			} else {
+				hexString.append(Integer.toHexString(0xFF & hash[i]));
+			}
+		}
+		
+		return hexString.toString();
 	}
 	
 }

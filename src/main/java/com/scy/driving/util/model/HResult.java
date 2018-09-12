@@ -6,6 +6,9 @@ public enum HResult {
 	E_METHOD_NOT_ALLOW(405, ""),
 	E_NOT_FOUNT(404, ""),
 	
+	//ride
+	E_END_RIDE(0x87000002,"行程已结束"),
+	
 	// common
 	E_UNKNOWN(0x80000000, "未知错误，请稍候重试"),
 	E_DATA_LENGTH_FLOW(0x80007001,"数据长度超过限制，请稍后重试"),
@@ -242,4 +245,3 @@ public enum HResult {
 		throw new IllegalArgumentException("No matching ClientType for [" + id + "]");
 	}
 }
-
