@@ -50,10 +50,11 @@ public class RideController {
 	private final int GYROSCOPE = 1;
 	
 	@RequestMapping(value = "/getBusInfo", method = RequestMethod.GET)
-	public GenericJsonResult<PartialArrayList<BusInfo>> getBusInfo(@RequestParam(value = "destination", required = true) Integer destination) {
+	public GenericJsonResult<PartialArrayList<BusInfo>> getBusInfo(@RequestParam(value = "destination", required = true) Integer destination,
+			@RequestParam(value = "date", required = true) Long date) {
 		GenericJsonResult<PartialArrayList<BusInfo>> result = new GenericJsonResult<PartialArrayList<BusInfo>>(HResult.S_OK);
 		
-		Boolean type = isWeekend();
+		Boolean type = isWeekend(date);
 		PartialArrayList<BusInfo> info = busInfoRepository.findAllByWeekendAndDestination(type, destination);
 		result.setData(info);
 		
@@ -171,8 +172,9 @@ public class RideController {
 		return result;
 	}
 	
-	private boolean isWeekend() {
+	private boolean isWeekend(Long date) {
 		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(date);
 		if (calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || calendar.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
 			return true;
 		}

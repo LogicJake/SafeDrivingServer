@@ -7,13 +7,23 @@ public class UserInfoResponse {
 	private String email;
 	private Long uid;
 	private String userName;
+	private String avatarUrl;
 	
 	public UserInfoResponse(User user) {
 		this.email = user.getEmail();
 		this.uid = user.getUid();
 		this.userName = user.getUserName();
+		this.avatarUrl = user.getAvatarUrl();
 	}
-
+	
+	public String getAvatarUrl() {
+		return avatarUrl;
+	}
+	
+	public void setAvatarUrl(String avatarUrl) {
+		this.avatarUrl = avatarUrl;
+	}
+	
 	public String getToken() {
 		return token;
 	}
