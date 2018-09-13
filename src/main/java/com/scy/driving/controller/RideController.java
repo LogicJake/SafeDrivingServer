@@ -1,6 +1,7 @@
 package com.scy.driving.controller;
 
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -56,6 +57,15 @@ public class RideController {
 		
 		Boolean type = isWeekend(date);
 		PartialArrayList<BusInfo> info = busInfoRepository.findAllByWeekendAndDestination(type, destination);
+		// 自定义Comparator对象，自定义排序
+		Comparator<BusInfo> c = new Comparator<BusInfo>() {
+			@Override
+			public int compare(BusInfo o1, BusInfo o2) {
+				return o1.getTime().compareTo(o2.getTime());
+			}
+		};
+		
+		info.sort(c);
 		result.setData(info);
 		
 		return result;
