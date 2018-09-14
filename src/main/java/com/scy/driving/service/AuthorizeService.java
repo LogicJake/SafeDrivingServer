@@ -30,7 +30,7 @@ public class AuthorizeService {
 	
 	private static final String ACCESS_TOKEN = "nuaa-driving";
 	
-	public int auth(HttpServletRequest request) throws IllegalArgumentException, UnsupportedEncodingException {
+	public int auth(HttpServletRequest request){
 		
 		String token = request.getHeader(AUTHORIZATION_HEADER);
 		if (token == null || token.isEmpty()) {
@@ -44,6 +44,30 @@ public class AuthorizeService {
 			
 			Long userId = Long.valueOf(decodedJWT.getId());
 			request.setAttribute("userId", userId);
+			
+			boolean isExist = tokenRepository.existsByUidAndToken(userId, token);
+			if (!isExist) {
+				return FAILURE;
+			}
+			
+			// 检查token有没有过期
+			if (System.currentTimeMillis() >= decodedJWT.getExpiresAt().getTime()) {
+				return EXPIRED;
+			}
+		} catch (Exception e) {
+			return FAILURE;
+		}
+		
+		return SUCCESS;
+	}
+	
+	public int auth(String token) {
+		try {
+			DecodedJWT decodedJWT = JWT.decode(token);
+			Algorithm algorithm = Algorithm.HMAC256(ACCESS_TOKEN);
+			algorithm.verify(decodedJWT);
+			
+			Long userId = Long.valueOf(decodedJWT.getId());
 			
 			boolean isExist = tokenRepository.existsByUidAndToken(userId, token);
 			if (!isExist) {

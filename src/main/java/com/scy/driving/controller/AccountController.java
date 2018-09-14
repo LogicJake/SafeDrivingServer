@@ -102,8 +102,7 @@ public class AccountController {
 	
 	@Transactional
 	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
-	public GenericJsonResult<String> getToken(@RequestParam(value = "name", required = true) String userName)
-			throws TokenErrorException, IllegalArgumentException, UnsupportedEncodingException {
+	public GenericJsonResult<String> getToken(@RequestParam(value = "name", required = true) String userName) throws IllegalArgumentException, UnsupportedEncodingException {
 		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
 		
 		User user = userRepository.findByUserName(userName);
@@ -115,7 +114,7 @@ public class AccountController {
 		Long uid = user.getUid();
 		Token token = tokenRepository.findByUid(uid);
 		
-		if (token == null) {
+		if (token == null || authorizeService.auth(token.getToken()) != AuthorizeService.SUCCESS) {
 			String tokenTxt = authorizeService.createToken(uid);
 			result.setData(tokenTxt);
 		} else {
