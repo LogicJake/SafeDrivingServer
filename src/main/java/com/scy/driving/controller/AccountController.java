@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.scy.driving.Application;
+import com.scy.driving.entity.Token;
 import com.scy.driving.entity.User;
+import com.scy.driving.repository.TokenRepository;
 import com.scy.driving.repository.UserRepository;
 import com.scy.driving.response.UserInfoResponse;
 import com.scy.driving.service.AuthorizeService;
@@ -34,6 +36,8 @@ public class AccountController {
 	private AuthorizeService authorizeService;
 	@Autowired
 	private Environment env;
+	@Autowired
+	private TokenRepository tokenRepository;
 	private String[] avatarSuffix = { "jpg", "jpeg", "png" };
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -88,11 +92,37 @@ public class AccountController {
 		return result;
 	}
 	
+	@Transactional
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public GenericJsonResult<String> logout(HttpServletRequest httpRequest) throws TokenErrorException {
 		Long userId = Application.getUserId(httpRequest);
 		authorizeService.deleteToken(userId);
 		return new GenericJsonResult<>(HResult.S_OK);
+	}
+	
+	@Transactional
+	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
+	public GenericJsonResult<String> getToken(@RequestParam(value = "name", required = true) String userName)
+			throws TokenErrorException, IllegalArgumentException, UnsupportedEncodingException {
+		GenericJsonResult<String> result = new GenericJsonResult<>(HResult.S_OK);
+		
+		User user = userRepository.findByUserName(userName);
+		if (user == null) {
+			result.setHr(HResult.E_NO_USERNAME);
+			return result;
+		}
+		
+		Long uid = user.getUid();
+		Token token = tokenRepository.findByUid(uid);
+		
+		if (token == null) {
+			String tokenTxt = authorizeService.createToken(uid);
+			result.setData(tokenTxt);
+		} else {
+			result.setData(token.getToken());
+		}
+		
+		return result;
 	}
 	
 	@Transactional
