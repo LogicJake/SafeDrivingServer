@@ -34,6 +34,10 @@ public class Accelerometer {
 		this.time = time;
 	}
 	
+	public Accelerometer() {
+		super();
+	}
+	
 	public Long getId() {
 		return id;
 	}

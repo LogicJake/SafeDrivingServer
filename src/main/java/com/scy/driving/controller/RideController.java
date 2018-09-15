@@ -28,6 +28,7 @@ import com.scy.driving.repository.BusInfoRepository;
 import com.scy.driving.repository.CommentRepository;
 import com.scy.driving.repository.GyroscopeRepository;
 import com.scy.driving.repository.RideRecordRepository;
+import com.scy.driving.service.PredictService;
 import com.scy.driving.util.Utility;
 import com.scy.driving.util.exception.TokenErrorException;
 import com.scy.driving.util.model.GenericJsonResult;
@@ -47,6 +48,8 @@ public class RideController {
 	private AccelerometerRepository accelerometerRepository;
 	@Autowired
 	private GyroscopeRepository gyroscopeRepository;
+	@Autowired
+	private PredictService predictService;
 	private final int ACCELEROMETER = 0;
 	private final int GYROSCOPE = 1;
 	
@@ -179,6 +182,7 @@ public class RideController {
 		rideRecord.setEndTime(endTime);
 		rideRecordRepository.save(rideRecord);
 		
+		predictService.predict(rideId);
 		return result;
 	}
 	

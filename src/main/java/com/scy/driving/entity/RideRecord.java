@@ -24,6 +24,8 @@ public class RideRecord {
 	private Long endTime = 0L;
 	@Column(name = "bus_tag")
 	private String busTag;
+	@Column(name = "predict_tag")
+	private String predictTag;
 	
 	public Long getId() {
 		return id;
@@ -71,6 +73,14 @@ public class RideRecord {
 	
 	public void setBusTag(String busTag) {
 		this.busTag = busTag;
+	}
+	
+	public String getPredictTag() {
+		return predictTag;
+	}
+	
+	public void setPredictTag(String predictTag) {
+		this.predictTag = predictTag;
 	}
 	
 }

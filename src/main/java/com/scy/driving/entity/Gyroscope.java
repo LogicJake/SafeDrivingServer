@@ -34,6 +34,10 @@ public class Gyroscope {
 		this.time = time;
 	}
 	
+	public Gyroscope() {
+		super();
+	}
+	
 	public Long getId() {
 		return id;
 	}
